@@ -38,10 +38,10 @@ const (
 var (
 	regexRemoveComments = regexp.MustCompile("(?m:#.*$)")
 	regexRemoveSpaces   = regexp.MustCompile("(?m:[[:space:]]+)")
-	MatchV4             = MustCompileReadableRegex(regexMatchV4)
-	MatchV6             = MustCompileReadableRegex(regexMatchV6)
-	MatchBoundedV4      = MustCompileReadableRegex(`\b` + regexMatchV4 + `\b`)
-	MatchBoundedV6      = MustCompileReadableRegex(`\b` + regexMatchV6 + `\b`)
+	MatchIPv4           = MustCompileReadableRegex(regexMatchV4)
+	MatchIPv6           = MustCompileReadableRegex(regexMatchV6)
+	MatchBoundedIPv4    = MustCompileReadableRegex(`\b` + regexMatchV4 + `\b`)
+	MatchBoundedIPv6    = MustCompileReadableRegex(`\b` + regexMatchV6 + `\b`)
 )
 
 // MustCompileReadableRegex is similar to regexp.MustCompile
