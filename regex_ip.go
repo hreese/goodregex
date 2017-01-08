@@ -1,7 +1,11 @@
 package goodregex
 
+import (
+	"regexp"
+)
+
 const (
-    // this will not match the unspecified address "::" (RfC 4291, Section 2.5.2.)
+	// this will not match the unspecified address "::" (RfC 4291, Section 2.5.2.)
 	regexMatchV6 = `(
         # addresses containing a single ::
                                                       :: (?:(?:[[:alnum:]]{1,4}:){0,6}(?:[[:alnum:]]{1,4})){0,1} | 
@@ -29,6 +33,15 @@ const (
 	regexMatchV4 = `
         (?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}
            (?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)`
+)
+
+var (
+	regexRemoveComments = regexp.MustCompile("(?m:#.*$)")
+	regexRemoveSpaces   = regexp.MustCompile("(?m:[[:space:]]+)")
+	MatchV4             = MustCompileReadableRegex(regexMatchV4)
+	MatchV6             = MustCompileReadableRegex(regexMatchV6)
+	MatchBoundedV4      = MustCompileReadableRegex(`\b` + regexMatchV4 + `\b`)
+	MatchBoundedV6      = MustCompileReadableRegex(`\b` + regexMatchV6 + `\b`)
 )
 
 // MustCompileReadableRegex is similar to regexp.MustCompile
