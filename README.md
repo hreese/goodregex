@@ -9,3 +9,12 @@ comments are always welcome.
 ```
 go get github.com/hreese/goodregex
 ```
+
+# Usage
+
+This package currently exports two regular expressions:
+
+* ```MatchIPv4``` (matches IPv4 addresses)
+* ```MatchIPv6``` (matches IPv6 addresses)
+
+Use them like normal regular expressions from [regexp](https://golang.org/pkg/regexp/).
