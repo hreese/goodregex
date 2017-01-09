@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hreese/goodregex.svg?branch=master)](https://travis-ci.org/hreese/goodregex)
+
 A collection of regular expressions for Go.
 
 The name does not make any claims about the quality of the regular expressions
