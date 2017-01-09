@@ -12,6 +12,8 @@ go get github.com/hreese/goodregex
 
 # Usage
 
+[![godoc](https://img.shields.io/badge/docs-GoDoc-blue.svg)](https://godoc.org/github.com/hreese/goodregex)
+
 This package currently exports two regular expressions:
 
 * ```MatchIPv4``` (matches IPv4 addresses)
