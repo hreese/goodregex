@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hreese/goodregex.svg?branch=master)](https://travis-ci.org/hreese/goodregex)
+
 A collection of regular expressions for Go.
 
 The name does not make any claims about the quality of the regular expressions
@@ -11,6 +13,8 @@ go get github.com/hreese/goodregex
 ```
 
 # Usage
+
+[![godoc](https://img.shields.io/badge/docs-GoDoc-blue.svg)](https://godoc.org/github.com/hreese/goodregex)
 
 This package currently exports two regular expressions:
 

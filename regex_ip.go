@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// A collection of regular expressions for Go.
 package goodregex
 
 import (
@@ -54,16 +55,24 @@ const (
 var (
 	regexRemoveComments = regexp.MustCompile("(?m:#.*$)")
 	regexRemoveSpaces   = regexp.MustCompile("(?m:[[:space:]]+)")
-	MatchIPv4           = MustCompileReadableRegex(regexMatchV4)
-	MatchBoundedIPv4    = MustCompileReadableRegex(`(?:\b` + regexMatchV4 + `\b)`)
-	MatchIPv6           = MustCompileReadableRegex(regexMatchV6)
 )
+
+// MatchIPv4 matches IPv4 addresses in dotted decimal notation
+var MatchIPv4 = MustCompileReadableRegex(regexMatchV4)
+
+// MatchBoundedIPv4 is an experimental version of MatchIPv4 that
+// only matches if the IPv4 address is surrounded by a word border.
+var MatchBoundedIPv4 = MustCompileReadableRegex(`(?:\b` + regexMatchV4 + `\b)`)
+
+// MatchIPv6 matches IPv6 addresses. It supports colon-separated hexadecimal notation
+// including ::-abbreviation, IPv4-embedded IPv6 addresses and IPv4-Mapped IPv6 Address.
+// The unspecified address "::" is not matched as it cannot be resolved ot connected to.
+var MatchIPv6 = MustCompileReadableRegex(regexMatchV6)
 
 // MustCompileReadableRegex is similar to regexp.MustCompile
 // It accepts a "readable regex" which is a regular RE2 regexp where
-// * all whitespace and
-// * comments (# follow by everythin until EOL)
-// are removed prior to compilation
+// whitespace and comments (a # followed by everything until the end of line)
+// are removed prior to compilation.
 func MustCompileReadableRegex(r string) *regexp.Regexp {
 	r = regexRemoveComments.ReplaceAllString(r, "")
 	r = regexRemoveSpaces.ReplaceAllString(r, "")
