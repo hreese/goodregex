@@ -16,9 +16,12 @@ go get github.com/hreese/goodregex
 
 [![godoc](https://img.shields.io/badge/docs-GoDoc-blue.svg)](https://godoc.org/github.com/hreese/goodregex)
 
-This package currently exports two regular expressions:
+This package currently exports three regular expressions:
 
 * ```MatchIPv4``` (matches IPv4 addresses)
 * ```MatchIPv6``` (matches IPv6 addresses)
+* ```MatchHostname``` (matches hostnames)
+
+I would like to add versions that do not match parts inside faulty inputs (named `*Bounded*`), but it's currently WIP…
 
 Use them like normal regular expressions from [regexp](https://golang.org/pkg/regexp/).
