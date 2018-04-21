@@ -29,7 +29,7 @@ type IPFindAllString struct {
 }
 
 var IPFindAllStringTests = map[string][]IPFindAllString{
-	"MatchIPv4": []IPFindAllString{
+	"MatchIPv4": {
 		IPFindAllString{*MatchIPv4, `1.1.1.1`, []string{`1.1.1.1`}},
 		IPFindAllString{*MatchIPv4, `127.0.0.1`, []string{`127.0.0.1`}},
 		IPFindAllString{*MatchIPv4, `8.9.10.333`, []string{`8.9.10.33`}},
@@ -37,7 +37,7 @@ var IPFindAllStringTests = map[string][]IPFindAllString{
 		IPFindAllString{*MatchIPv4, `999.0.0.888`, []string{`99.0.0.88`}},
 		IPFindAllString{*MatchIPv4, `1.2.3.4 5.6.7.8 9.10.200.1`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
 	},
-	"MatchBoundedIPv4": []IPFindAllString{
+	"MatchBoundedIPv4": {
 		IPFindAllString{*MatchBoundedIPv4, `1.1.1.1`, []string{`1.1.1.1`}},
 		IPFindAllString{*MatchBoundedIPv4, `127.0.0.1`, []string{`127.0.0.1`}},
 		IPFindAllString{*MatchBoundedIPv4, `8.9.10.333`, []string(nil)},
@@ -46,7 +46,7 @@ var IPFindAllStringTests = map[string][]IPFindAllString{
 		IPFindAllString{*MatchBoundedIPv4, `1.2.3.4 5.6.7.8 9.10.200.1`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
 		IPFindAllString{*MatchBoundedIPv4, `::1.2.3.4:5.6.7.8:9.10.200.1:::`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
 	},
-	"MatchIPv6": []IPFindAllString{
+	"MatchIPv6": {
 		IPFindAllString{*MatchIPv6, `::0`, []string{`::0`}},
 		IPFindAllString{*MatchIPv6, `::1`, []string{`::1`}},
 		IPFindAllString{*MatchIPv6, `::ff`, []string{`::ff`}},
