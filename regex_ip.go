@@ -53,7 +53,7 @@ var MatchIPv4 = MustCompileReadableRegex(regexMatchV4)
 
 // MatchBoundedIPv4 is an experimental version of MatchIPv4 that
 // only matches if the IPv4 address is surrounded by a word border.
-var MatchBoundedIPv4 = MustCompileReadableRegex(`(:?\b` + regexMatchV4 + `\b)`)
+var MatchBoundedIPv4 = MustCompileReadableRegex(`(?:\b` + regexMatchV4 + `\b)`)
 
 // MatchIPv6 matches IPv6 addresses. It supports colon-separated hexadecimal notation
 // including ::-abbreviation, IPv4-embedded IPv6 addresses and IPv4-Mapped IPv6 Address.

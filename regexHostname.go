@@ -29,4 +29,4 @@ var MatchHostname = MustCompileReadableRegex(regexMatchHostname)
 
 // MatchBoundedHostname is an experimental version of MatchHostname that
 // only matches if the hostname is surrounded by a word border.
-var MatchBoundedHostname = MustCompileReadableRegex(`(:?\b` + regexMatchHostname + `\b)`)
+var MatchBoundedHostname = MustCompileReadableRegex(`(?:\b` + regexMatchHostname + `\b)`)
