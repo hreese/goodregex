@@ -1,10 +1,12 @@
 [![Build Status](https://travis-ci.org/hreese/goodregex.svg?branch=master)](https://travis-ci.org/hreese/goodregex)
 
-A collection of regular expressions for Go.
+A collection of regular expressions for Go. This is the core of
+[resolveip](https://github.com/hreese/resolveip).
 
 The name does not make any claims about the quality of the regular expressions
-included. The author needed a short intuitive name. Feedback, tests and
-comments are always welcome.
+included. The author just needed a short intuitive name :-)
+
+Feedback, tests and comments are always welcome.
 
 # Installation
 
