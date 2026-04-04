@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// A collection of regular expressions for Go.
 package goodregex
 
 const (
@@ -24,7 +23,7 @@ const (
         (?:64:ff9b::                                                                                  # Well-Known Prefix
             (?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?) # embedded IPv4 address
         ) |
-        (?:(?:[[:alnum:]]{1,4}:){0,3} (?:[[:alnum:]]{1,4}) ::                                         # /96 prefix
+        (?:(?:[0-9a-fA-F]{1,4}:){0,3} (?:[0-9a-fA-F]{1,4}) ::                                         # /96 prefix
             (?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?) # embedded IPv4 address
         ) |
         # IPv4-Mapped IPv6 Address
@@ -32,16 +31,16 @@ const (
             (?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?) # embedded IPv4 address
         ) |
         # addresses containing a single ::
-                                                      :: (?:(?:[[:alnum:]]{1,4}:){0,6}(?:[[:alnum:]]{1,4})){0,1} |
-                                 (?:[[:alnum:]]{1,4}) :: (?:(?:[[:alnum:]]{1,4}:){0,5}(?:[[:alnum:]]{1,4})){0,1} |
-        (?:[[:alnum:]]{1,4}:){1} (?:[[:alnum:]]{1,4}) :: (?:(?:[[:alnum:]]{1,4}:){0,4}(?:[[:alnum:]]{1,4})){0,1} |
-        (?:[[:alnum:]]{1,4}:){2} (?:[[:alnum:]]{1,4}) :: (?:(?:[[:alnum:]]{1,4}:){0,3}(?:[[:alnum:]]{1,4})){0,1} |
-        (?:[[:alnum:]]{1,4}:){3} (?:[[:alnum:]]{1,4}) :: (?:(?:[[:alnum:]]{1,4}:){0,2}(?:[[:alnum:]]{1,4})){0,1} |
-        (?:[[:alnum:]]{1,4}:){4} (?:[[:alnum:]]{1,4}) :: (?:(?:[[:alnum:]]{1,4}:){0,1}(?:[[:alnum:]]{1,4})){0,1} |
-        (?:[[:alnum:]]{1,4}:){5} (?:[[:alnum:]]{1,4}) :: (?:[[:alnum:]]{1,4}){0,1}                               |
-        (?:[[:alnum:]]{1,4}:){6} (?:[[:alnum:]]{1,4}) ::                                                         |
+                                                      :: (?:(?:[0-9a-fA-F]{1,4}:){0,6}(?:[0-9a-fA-F]{1,4})){0,1} |
+                                 (?:[0-9a-fA-F]{1,4}) :: (?:(?:[0-9a-fA-F]{1,4}:){0,5}(?:[0-9a-fA-F]{1,4})){0,1} |
+        (?:[0-9a-fA-F]{1,4}:){1} (?:[0-9a-fA-F]{1,4}) :: (?:(?:[0-9a-fA-F]{1,4}:){0,4}(?:[0-9a-fA-F]{1,4})){0,1} |
+        (?:[0-9a-fA-F]{1,4}:){2} (?:[0-9a-fA-F]{1,4}) :: (?:(?:[0-9a-fA-F]{1,4}:){0,3}(?:[0-9a-fA-F]{1,4})){0,1} |
+        (?:[0-9a-fA-F]{1,4}:){3} (?:[0-9a-fA-F]{1,4}) :: (?:(?:[0-9a-fA-F]{1,4}:){0,2}(?:[0-9a-fA-F]{1,4})){0,1} |
+        (?:[0-9a-fA-F]{1,4}:){4} (?:[0-9a-fA-F]{1,4}) :: (?:(?:[0-9a-fA-F]{1,4}:){0,1}(?:[0-9a-fA-F]{1,4})){0,1} |
+        (?:[0-9a-fA-F]{1,4}:){5} (?:[0-9a-fA-F]{1,4}) :: (?:[0-9a-fA-F]{1,4}){0,1}                               |
+        (?:[0-9a-fA-F]{1,4}:){6} (?:[0-9a-fA-F]{1,4}) ::                                                         |
         # plain IPv6 address
-        (?:[[:alnum:]]{1,4}:){7} (?:[[:alnum:]]{1,4})
+        (?:[0-9a-fA-F]{1,4}:){7} (?:[0-9a-fA-F]{1,4})
         )`
 	regexMatchV4 = `
         (?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}
@@ -57,5 +56,5 @@ var MatchBoundedIPv4 = MustCompileReadableRegex(`(?:\b` + regexMatchV4 + `\b)`)
 
 // MatchIPv6 matches IPv6 addresses. It supports colon-separated hexadecimal notation
 // including ::-abbreviation, IPv4-embedded IPv6 addresses and IPv4-Mapped IPv6 Address.
-// The unspecified address "::" is not matched as it cannot be resolved ot connected to.
+// The unspecified address "::" is not matched as it cannot be resolved or connected to.
 var MatchIPv6 = MustCompileReadableRegex(regexMatchV6)

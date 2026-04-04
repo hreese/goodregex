@@ -23,10 +23,21 @@ var (
 	regexRemoveSpaces   = regexp.MustCompile("(?m:[[:space:]]+)")
 )
 
-// MustCompileReadableRegex is similar to regexp.MustCompile
+// CompileReadableRegex is similar to [regexp.Compile].
 // It accepts a "readable regex" which is a regular RE2 regexp where
 // whitespace and comments (a # followed by everything until the end of line)
 // are removed prior to compilation.
+func CompileReadableRegex(r string) (*regexp.Regexp, error) {
+	r = regexRemoveComments.ReplaceAllString(r, "")
+	r = regexRemoveSpaces.ReplaceAllString(r, "")
+	return regexp.Compile(r)
+}
+
+// MustCompileReadableRegex is similar to [regexp.MustCompile].
+// It accepts a "readable regex" which is a regular RE2 regexp where
+// whitespace and comments (a # followed by everything until the end of line)
+// are removed prior to compilation.
+// It panics if the expression cannot be parsed.
 func MustCompileReadableRegex(r string) *regexp.Regexp {
 	r = regexRemoveComments.ReplaceAllString(r, "")
 	r = regexRemoveSpaces.ReplaceAllString(r, "")

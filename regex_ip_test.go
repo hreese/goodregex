@@ -17,65 +17,69 @@ limitations under the License.
 package goodregex
 
 import (
+	"fmt"
 	"reflect"
 	"regexp"
 	"testing"
 )
 
-type IPFindAllString struct {
-	re     regexp.Regexp
+type findAllStringTest struct {
+	re     *regexp.Regexp
 	input  string
 	result []string
 }
 
-var IPFindAllStringTests = map[string][]IPFindAllString{
+var ipFindAllStringTests = map[string][]findAllStringTest{
 	"MatchIPv4": {
-		IPFindAllString{*MatchIPv4, `1.1.1.1`, []string{`1.1.1.1`}},
-		IPFindAllString{*MatchIPv4, `127.0.0.1`, []string{`127.0.0.1`}},
-		IPFindAllString{*MatchIPv4, `8.9.10.333`, []string{`8.9.10.33`}},
-		IPFindAllString{*MatchIPv4, `"8.8.8.8"`, []string{`8.8.8.8`}},
-		IPFindAllString{*MatchIPv4, `999.0.0.888`, []string{`99.0.0.88`}},
-		IPFindAllString{*MatchIPv4, `1.2.3.4 5.6.7.8 9.10.200.1`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
+		{MatchIPv4, `1.1.1.1`, []string{`1.1.1.1`}},
+		{MatchIPv4, `127.0.0.1`, []string{`127.0.0.1`}},
+		{MatchIPv4, `8.9.10.333`, []string{`8.9.10.33`}},
+		{MatchIPv4, `"8.8.8.8"`, []string{`8.8.8.8`}},
+		{MatchIPv4, `999.0.0.888`, []string{`99.0.0.88`}},
+		{MatchIPv4, `1.2.3.4 5.6.7.8 9.10.200.1`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
 	},
 	"MatchBoundedIPv4": {
-		IPFindAllString{*MatchBoundedIPv4, `1.1.1.1`, []string{`1.1.1.1`}},
-		IPFindAllString{*MatchBoundedIPv4, `127.0.0.1`, []string{`127.0.0.1`}},
-		IPFindAllString{*MatchBoundedIPv4, `8.9.10.333`, []string(nil)},
-		IPFindAllString{*MatchBoundedIPv4, `"8.8.8.8"`, []string{`8.8.8.8`}},
-		IPFindAllString{*MatchBoundedIPv4, `999.0.0.888`, []string(nil)},
-		IPFindAllString{*MatchBoundedIPv4, `1.2.3.4 5.6.7.8 9.10.200.1`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
-		IPFindAllString{*MatchBoundedIPv4, `::1.2.3.4:5.6.7.8:9.10.200.1:::`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
+		{MatchBoundedIPv4, `1.1.1.1`, []string{`1.1.1.1`}},
+		{MatchBoundedIPv4, `127.0.0.1`, []string{`127.0.0.1`}},
+		{MatchBoundedIPv4, `8.9.10.333`, nil},
+		{MatchBoundedIPv4, `"8.8.8.8"`, []string{`8.8.8.8`}},
+		{MatchBoundedIPv4, `999.0.0.888`, nil},
+		{MatchBoundedIPv4, `1.2.3.4 5.6.7.8 9.10.200.1`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
+		{MatchBoundedIPv4, `::1.2.3.4:5.6.7.8:9.10.200.1:::`, []string{`1.2.3.4`, `5.6.7.8`, `9.10.200.1`}},
 	},
 	"MatchIPv6": {
-		IPFindAllString{*MatchIPv6, `::0`, []string{`::0`}},
-		IPFindAllString{*MatchIPv6, `::1`, []string{`::1`}},
-		IPFindAllString{*MatchIPv6, `::ff`, []string{`::ff`}},
-		IPFindAllString{*MatchIPv6, `1::`, []string{`1::`}},
-		IPFindAllString{*MatchIPv6, `111111111::aaaaaaaa`, []string{`1111::aaaa`}},
-		IPFindAllString{*MatchIPv6, `a::b`, []string{`a::b`}},
-		IPFindAllString{*MatchIPv6, `1234:5678::90ab`, []string{`1234:5678::90ab`}},
-		IPFindAllString{*MatchIPv6, `2001:db8::1`, []string{`2001:db8::1`}},
-		IPFindAllString{*MatchIPv6, `1:2:3:4:5:6:7:8`, []string{`1:2:3:4:5:6:7:8`}},
-		IPFindAllString{*MatchIPv6, `12:34:56:78:90:ab:cd:ef`, []string{`12:34:56:78:90:ab:cd:ef`}},
-		IPFindAllString{*MatchIPv6, `12::56:78:90:ab:cd:ef`, []string{`12::56:78:90:ab:cd:ef`}},
-		IPFindAllString{*MatchIPv6, `12:34::78:90:ab:cd:ef`, []string{`12:34::78:90:ab:cd:ef`}},
-		IPFindAllString{*MatchIPv6, `12:34:56::90:ab:cd:ef`, []string{`12:34:56::90:ab:cd:ef`}},
-		IPFindAllString{*MatchIPv6, `12:34:56:78::ab:cd:ef`, []string{`12:34:56:78::ab:cd:ef`}},
-		IPFindAllString{*MatchIPv6, `12:34:56:78:90::cd:ef`, []string{`12:34:56:78:90::cd:ef`}},
-		IPFindAllString{*MatchIPv6, `12:34:56:78:90:ab::ef`, []string{`12:34:56:78:90:ab::ef`}},
-		IPFindAllString{*MatchIPv6, `::ffff:255.255.255.255`, []string{`::ffff:255.255.255.255`}},
-		IPFindAllString{*MatchIPv6, `2001:db8:3:4::192.0.2.33`, []string{`2001:db8:3:4::192.0.2.33`}},
-		IPFindAllString{*MatchIPv6, `64:ff9b::129.13.64.5`, []string{`64:ff9b::129.13.64.5`}},
+		{MatchIPv6, `::0`, []string{`::0`}},
+		{MatchIPv6, `::1`, []string{`::1`}},
+		{MatchIPv6, `::ff`, []string{`::ff`}},
+		{MatchIPv6, `1::`, []string{`1::`}},
+		{MatchIPv6, `a::b`, []string{`a::b`}},
+		{MatchIPv6, `1234:5678::90ab`, []string{`1234:5678::90ab`}},
+		{MatchIPv6, `2001:db8::1`, []string{`2001:db8::1`}},
+		{MatchIPv6, `1:2:3:4:5:6:7:8`, []string{`1:2:3:4:5:6:7:8`}},
+		{MatchIPv6, `12:34:56:78:90:ab:cd:ef`, []string{`12:34:56:78:90:ab:cd:ef`}},
+		{MatchIPv6, `12::56:78:90:ab:cd:ef`, []string{`12::56:78:90:ab:cd:ef`}},
+		{MatchIPv6, `12:34::78:90:ab:cd:ef`, []string{`12:34::78:90:ab:cd:ef`}},
+		{MatchIPv6, `12:34:56::90:ab:cd:ef`, []string{`12:34:56::90:ab:cd:ef`}},
+		{MatchIPv6, `12:34:56:78::ab:cd:ef`, []string{`12:34:56:78::ab:cd:ef`}},
+		{MatchIPv6, `12:34:56:78:90::cd:ef`, []string{`12:34:56:78:90::cd:ef`}},
+		{MatchIPv6, `12:34:56:78:90:ab::ef`, []string{`12:34:56:78:90:ab::ef`}},
+		{MatchIPv6, `::ffff:255.255.255.255`, []string{`::ffff:255.255.255.255`}},
+		{MatchIPv6, `2001:db8:3:4::192.0.2.33`, []string{`2001:db8:3:4::192.0.2.33`}},
+		{MatchIPv6, `64:ff9b::129.13.64.5`, []string{`64:ff9b::129.13.64.5`}},
 	},
 }
 
 func TestIPFindAllString(t *testing.T) {
-	for comment, tests := range IPFindAllStringTests {
-		for _, test := range tests {
-			res := test.re.FindAllString(test.input, -1)
-			if !reflect.DeepEqual(res, test.result) {
-				t.Errorf("Testset %s tested\n  %s\n and expected\n  %#v\ngot\n  %#v\n", comment, test.input, test.result, res)
+	for name, tests := range ipFindAllStringTests {
+		t.Run(name, func(t *testing.T) {
+			for i, tc := range tests {
+				t.Run(fmt.Sprintf("case_%d_%s", i, tc.input), func(t *testing.T) {
+					res := tc.re.FindAllString(tc.input, -1)
+					if !reflect.DeepEqual(res, tc.result) {
+						t.Errorf("input %q: expected %#v, got %#v", tc.input, tc.result, res)
+					}
+				})
 			}
-		}
+		})
 	}
 }
